@@ -1,0 +1,392 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ *
+ * App chrome theme
+ * ------------------------------------------------------------------ */
+
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --surface-2: #f0f2f5;
+  --border: #dfe3e8;
+  --border-strong: #c6cdd6;
+  --text: #12161c;
+  --text-muted: #5b6472;
+  --text-faint: #8a93a1;
+  --brand: #2f5fd0;
+  --brand-soft: #e8eefc;
+  --good: #1a7f52;
+  --good-soft: #e3f4ec;
+  --warn: #9a6206;
+  --warn-soft: #fdf1dc;
+  --bad: #b3261e;
+  --bad-soft: #fbe9e7;
+  --ring: #2f5fd0;
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --bg: #0f1216;
+  --surface: #171b21;
+  --surface-2: #1e242c;
+  --border: #2b323b;
+  --border-strong: #3a434f;
+  --text: #e8ecf1;
+  --text-muted: #a3adba;
+  --text-faint: #79838f;
+  --brand: #7ea2ff;
+  --brand-soft: #1c2740;
+  --good: #4ec78d;
+  --good-soft: #14301f;
+  --warn: #e0a33c;
+  --warn-soft: #33260f;
+  --bad: #f08076;
+  --bad-soft: #351a17;
+  --ring: #7ea2ff;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--brand-soft);
+  color: var(--text);
+}
+
+/* Slim scrollbars keep the two-pane layout from feeling boxed in. */
+.scroll-slim {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+.scroll-slim::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.scroll-slim::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 99px;
+  border: 3px solid var(--bg);
+}
+.scroll-slim::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Each wizard step fades in so a step change reads as a change of place. */
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.step-enter {
+  animation: step-in 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * The resume document
+ *
+ * Deliberately plain CSS rather than utility classes: these rules have to
+ * survive the print pipeline unchanged, and page geometry is driven by
+ * custom properties that the design panel writes at runtime.
+ * ------------------------------------------------------------------ */
+
+.doc {
+  --doc-accent: #1f4d7a;
+  --doc-scale: 1;
+  --doc-line: 1.42;
+  --doc-gap: 14px;
+  --doc-margin: 48px;
+  --doc-ink: #14181d;
+  --doc-muted: #4a5260;
+  --doc-rule: #d4d9e0;
+
+  width: var(--page-width);
+  min-height: var(--page-height);
+  padding: var(--doc-margin);
+  background: #ffffff;
+  color: var(--doc-ink);
+  font-size: calc(10.5pt * var(--doc-scale));
+  line-height: var(--doc-line);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.doc[data-font='serif'] {
+  font-family: Georgia, 'Times New Roman', 'Liberation Serif', serif;
+}
+
+.doc p {
+  margin: 0;
+}
+
+.doc a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.doc-name {
+  font-size: calc(21pt * var(--doc-scale));
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.12;
+  margin: 0;
+}
+
+.doc-headline {
+  font-size: calc(11pt * var(--doc-scale));
+  color: var(--doc-accent);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.doc-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin-top: 6px;
+  font-size: calc(9pt * var(--doc-scale));
+  color: var(--doc-muted);
+}
+
+.doc-contact .sep {
+  color: var(--doc-rule);
+}
+
+.doc-section {
+  margin-top: var(--doc-gap);
+}
+
+.doc-section-title {
+  font-size: calc(10pt * var(--doc-scale));
+  font-weight: 700;
+  color: var(--doc-accent);
+  letter-spacing: 0.06em;
+  margin: 0 0 5px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--doc-rule);
+}
+
+.doc[data-uppercase='true'] .doc-section-title {
+  text-transform: uppercase;
+}
+
+.doc-entry {
+  margin-bottom: calc(var(--doc-gap) * 0.6);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.doc-entry:last-child {
+  margin-bottom: 0;
+}
+
+.doc-entry-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.doc-role {
+  font-weight: 700;
+  font-size: calc(10.5pt * var(--doc-scale));
+}
+
+.doc-org {
+  font-weight: 600;
+  color: var(--doc-muted);
+}
+
+.doc-meta {
+  font-size: calc(9pt * var(--doc-scale));
+  color: var(--doc-muted);
+  white-space: nowrap;
+}
+
+.doc-bullets {
+  /* Tailwind's preflight zeroes list styling; the document needs it back. */
+  list-style: disc outside;
+  margin: 4px 0 0;
+  padding-left: 16px;
+}
+
+.doc-bullets li {
+  margin-bottom: 2px;
+}
+
+.doc-bullets li::marker {
+  color: var(--doc-accent);
+}
+
+.doc-skill-row {
+  display: grid;
+  grid-template-columns: minmax(90px, auto) 1fr;
+  gap: 4px 10px;
+  margin-bottom: 3px;
+}
+
+.doc-skill-label {
+  font-weight: 700;
+}
+
+/* Compact template's sidebar layout. */
+.doc-columns {
+  display: grid;
+  grid-template-columns: 1fr 0.42fr;
+  gap: calc(var(--doc-gap) * 1.4);
+  align-items: start;
+}
+
+.doc-rule-accent {
+  height: 3px;
+  background: var(--doc-accent);
+  margin-top: 10px;
+}
+
+.doc-banner {
+  background: var(--doc-accent);
+  color: #fff;
+  margin: calc(var(--doc-margin) * -1) calc(var(--doc-margin) * -1) var(--doc-gap);
+  padding: calc(var(--doc-margin) * 0.62) var(--doc-margin);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.doc-banner .doc-headline,
+.doc-banner .doc-contact,
+.doc-banner .doc-contact .sep {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* ------------------------------------------------------------------ *
+ * Preview surface
+ * ------------------------------------------------------------------ */
+
+.page-shadow {
+  box-shadow:
+    0 1px 2px rgba(16, 24, 40, 0.08),
+    0 12px 28px rgba(16, 24, 40, 0.12);
+}
+
+.page-break-guide {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed rgba(179, 38, 30, 0.55);
+  pointer-events: none;
+}
+
+.page-break-guide::after {
+  content: 'page break';
+  position: absolute;
+  right: 6px;
+  top: 3px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: rgba(179, 38, 30, 0.85);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0 4px;
+  border-radius: 3px;
+}
+
+/* ------------------------------------------------------------------ *
+ * Print
+ *
+ * Only #print-root reaches paper. It renders the document at true size with
+ * no transform, so the browser paginates real text — selectable, searchable
+ * and parseable by an applicant tracking system.
+ * ------------------------------------------------------------------ */
+
+#print-root {
+  display: none;
+}
+
+@media print {
+  html,
+  body {
+    background: #fff;
+    height: auto;
+  }
+
+  .app-shell {
+    display: none !important;
+  }
+
+  #print-root {
+    display: block;
+  }
+
+  /*
+   * Page margins move from the element to the @page box in print, so every
+   * page after the first gets a proper top margin instead of running to the
+   * paper edge. The @page rule itself is injected at runtime from the
+   * margin setting in the design panel.
+   */
+  #print-root .doc {
+    width: auto;
+    min-height: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  #print-root .doc-banner {
+    margin: 0 0 var(--doc-gap);
+    padding: 10px 0;
+  }
+
+  .doc-entry {
+    break-inside: avoid;
+  }
+
+  .doc-section-title {
+    break-after: avoid;
+  }
+
+  a[href]::after {
+    content: '';
+  }
+}
+
+.letter {
+  white-space: pre-wrap;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 11pt;
+  line-height: 1.55;
+  color: #14181d;
+}
