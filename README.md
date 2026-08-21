@@ -124,3 +124,7 @@ src/
 
 `Ctrl/Cmd + Enter` continue to the next step · `Ctrl/Cmd + P` export ·
 `Ctrl/Cmd + Z` undo · `Ctrl/Cmd + Shift + Z` redo
+
+## Licence
+
+MIT — see [LICENSE](LICENSE). Use it, fork it, ship your own version.
