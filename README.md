@@ -95,8 +95,29 @@ npm run dev
 npm run build
 ```
 
-The build is static and relative-pathed — deploy `dist/` to GitHub Pages,
-Netlify, Cloudflare Pages, or open `dist/index.html` from disk.
+The build is static and relative-pathed, so `dist/` can be served from a domain
+root, a project sub-path, or opened straight from disk.
+
+### Deploying to Vercel
+
+Import the repository at [vercel.com/new](https://vercel.com/new). Framework,
+build command and output directory are all read from `vercel.json`, so there is
+nothing to configure — and no environment variables, because the app has no
+back end to talk to.
+
+`vercel.json` also sets the real security headers. The `<meta>` CSP in the built
+HTML cannot carry `frame-ancestors`, and a meta tag cannot set
+`X-Content-Type-Options` at all, so those are delivered as HTTP headers here.
+
+One consequence worth knowing: `script-src 'self'` and `connect-src 'none'`
+block Vercel's preview toolbar, which loads from `vercel.live`. Preview
+deployments will log a CSP violation for it and the toolbar will not appear.
+That is the policy working as intended — turn the toolbar off in the project
+settings if the console noise bothers you. Relaxing the CSP to admit it would
+give up the guarantee that the page cannot phone home.
+
+Other hosts: `public/_headers` carries the same header set in the format
+Netlify and Cloudflare Pages read.
 
 ## Layout
 

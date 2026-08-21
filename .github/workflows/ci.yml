@@ -1,10 +1,12 @@
 # Typecheck and build on pull requests, so a broken change never reaches main.
 name: CI
 
+# Vercel builds and deploys on push; this is the independent check that a
+# change typechecks and builds before it is merged.
 on:
   pull_request:
   push:
-    branches-ignore: [main]
+    branches: [main]
 
 jobs:
   check:
